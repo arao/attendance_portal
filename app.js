@@ -5,9 +5,15 @@ let logger = require('morgan');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let stylus = require('stylus');
+let session = require('express-session');
+let passport = require('passport');
 
 let index = require('./routes/index');
 let users = require('./routes/users');
+let teacher = require('./routes/teacher');
+let student = require('./routes/student');
+let forget = require('./routes/forget');
+
 
 let app = express();
 
@@ -24,7 +30,22 @@ app.use(cookieParser());
 app.use(stylus.middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Express Session
+app.use(session({
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true
+}));
+
+// Passport init
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/', index);
+
+app.use('/teacher', teacher);
+app.use('/student', student);
+app.use('/forget', forget);
 app.use('/users', users);
 
 // catch 404 and forward to error handler

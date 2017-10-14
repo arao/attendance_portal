@@ -4,11 +4,16 @@ const schema = require('./schema').schema;
 
 let post = (collection)=>{
     "use strict";
-    if ( collection in mongoose.db.collectionName) {
+    if(typeof(mongoose.collectionList) === 'undefined'){
+        return Promise.reject({err:"cannot fetch collection list", reason:"mongoose.collection not exist"});
+    }
+
+    if ( mongoose.collectionList.includes(collection) ) {
         return Promise.resolve(mongoose.model(collection, schema, collection));
     }else{
-        throw {err:"error", reason:"collection not exist"}
+        return Promise.reject({err:"error", reason:"collection not exist"});
     }
+
 } ;
 
 module.exports.post = post;
