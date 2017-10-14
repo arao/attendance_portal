@@ -18,7 +18,7 @@ mongoose.connection.on('connected', function () {
                 for(let ele of doc){
                     mongoose.collectionList.push(ele.name);
                 }
-                console.log("Mongo Driver Collection retrieve");
+                console.log("Mongo Driver Collection retrieve from : "+uri);
             })
             .catch(err => {
                 console.log("Failed to get collection list");

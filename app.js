@@ -7,7 +7,7 @@ let bodyParser = require('body-parser');
 let stylus = require('stylus');
 let session = require('express-session');
 let passport = require('passport');
-
+let flash = require('connect-flash');
 let index = require('./routes/index');
 let users = require('./routes/users');
 let teacher = require('./routes/teacher');
@@ -41,12 +41,25 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Connect Flash
+app.use(flash());
+
+// Global Vars
+app.use(function (req, res, next) {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    res.locals.user = req.user || null;
+    next();
+});
+
+
 app.use('/', index);
 
-app.use('/teacher', teacher);
+//app.use('/teacher', teacher);
 app.use('/student', student);
-app.use('/forget', forget);
-app.use('/users', users);
+//pp.use('/forget', forget);
+//app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
