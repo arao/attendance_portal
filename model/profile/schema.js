@@ -12,4 +12,4 @@ const Profile = new Schema({
     map        : [{type:String}]
 });
 
-module.exports.schema = Profile;
+module.exports = Profile;

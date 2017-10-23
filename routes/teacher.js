@@ -8,7 +8,7 @@ router.get('/', function (req,res, next) {
     /*
         student profile goes here
      */
-    let session  = req.session();
+    let session  = req.session;
     if(session.profile){
         res.send(session.profile);
     }else {

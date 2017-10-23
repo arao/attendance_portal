@@ -5,8 +5,12 @@ const uri = "mongodb://localhost:27017/Profile";
 mongoose.Promise = Promise;
 const log = require('../../etc/log');
 
-mongoose.connect(uri,opt).catch(err=>{console.log(err)});
+//mongoose.connect(uri,opt).catch(err=>{console.log(err)});
 
+let db = mongoose.createConnection(uri,opt);
+
+
+/*
 let collectionList = [];
 mongoose.connection.on('connected', function () {
     console.log('Mongoose default connection open to ' + uri);
@@ -39,6 +43,37 @@ mongoose.connection.on('error',function (err) {
 mongoose.connection.on('disconnected', function () {
     console.log('Mongoose default connection disconnected : attendance');
 });
+*/
+
+db.on('connected', function () {
+    console.log('Mongoose default connection open to ' + uri);
+    client.connect(uri).then(Db => {
+        "use strict";
+        Db.listCollections().toArray()
+            .then(doc => {
+                Db.close();
+                db.collectionList = [];
+                for(let ele of doc){
+                    db.collectionList.push(ele.name);
+                }
+                console.log("Mongo Driver Collection retrieve from "+uri);
+            })
+            .catch(err => {
+                console.log("Failed to get collection list");
+                log.error({err: err, reason: "mongodb driver cannot retrieve data from database"});
+                db.close();
+            });
+    });
+});
+
+db.on('error',function (err) {
+    console.log('Mongoose default connection error: ' + err);
+});
+
+db.on('disconnected', function () {
+    console.log('Mongoose default connection disconnected : '+uri);
+});
+
 
 process.on('SIGINT', function() {
     mongoose.connection.close(function () {
@@ -47,5 +82,6 @@ process.on('SIGINT', function() {
     });
 });
 
-module.exports = {mongo:mongoose, collectionlist : collectionList};
+module.exports = db;
+//module.exports = {mongo:mongoose, collectionlist : collectionList};
 //module.exports.collectionList = collectionList;

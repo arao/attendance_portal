@@ -1,6 +1,6 @@
 const mongoose = require('./config');
 
-const schema = require('./schema').schema;
+const schema = require('./schema');
 
 let post = (collection)=>{
     "use strict";

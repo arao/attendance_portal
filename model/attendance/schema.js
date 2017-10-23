@@ -9,4 +9,4 @@ const Attendance = new Schema({
     count: {type:Number, default:0}
 });
 
-module.exports.schema = Attendance;
+module.exports = Attendance;

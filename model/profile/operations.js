@@ -22,7 +22,7 @@ module.exports.getUserByUsername = (obj) => {
                         delete doc._id;
                         delete doc.username;
                         delete doc.password;
-                        delete doc._v;
+                        delete doc.__v;
                         return Promise.reject({err: " ", reason: "Credential Error"});
 
 
@@ -50,7 +50,6 @@ module.exports.createUser =  (obj) => {
         obj.collection  (teacher, class_year(2k15))  //everything in small
         obj.username   (teacher id, roll number )
         obj.password
-        obj.verify
         obj.email
         obj.mobile
      */

@@ -17,6 +17,23 @@ router.get('/', function(req, res, next) {
     }
 
 });
+
+router.get('/logout', function (req, res, next) {
+    req.session.destroy(err=>{
+        "use strict";
+        if(err) console.log(err);
+        res.redirect('/');
+    })
+});
+
+router.use(function (req,res,next) {
+    if(req.session.profile){
+        res.redirect('/');
+    }
+    next();
+});
+
+
 router.get('/login', function (req, res, next) {
     /*
          render login form
@@ -25,14 +42,14 @@ router.get('/login', function (req, res, next) {
 });
 
 router.post('/login', function (req, res, next) {
-
     /*
         perform validation here
      */
+
     let cat = req.body.username.split("-")[0]==="t"?"teacher":req.body.username.split("-")[2];
     //console.log(req.body.username);
 
-    console.log({collection: cat, username:req.body.username, password:req.body.password});
+    console.log({collection: "", username:req.body.username, password:req.body.password});
     profile.getUserByUsername({collection: cat, username:req.body.username, password:req.body.password})
                 .then(doc => {
                 "use strict";
@@ -47,14 +64,9 @@ router.post('/login', function (req, res, next) {
                     console.log(err);
                     res.send("err at login");
                 })
+
 });
 
-router.get('/logout', function (req, res, next) {
-    req.session.destroy(err=>{
-        "use strict";
-        if(err) console.log(err);
-        res.redirect('/');
-    })
-});
+
 
 module.exports = router;
