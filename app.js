@@ -6,14 +6,14 @@ let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let stylus = require('stylus');
 let session = require('express-session');
-let passport = require('passport');
+//let passport = require('passport');
 let flash = require('connect-flash');
 let index = require('./routes/index');
 let users = require('./routes/users');
 let teacher = require('./routes/teacher');
 let student = require('./routes/student');
 let forget = require('./routes/forget');
-
+let api = require('./routes/api');
 
 let app = express();
 
@@ -38,9 +38,9 @@ app.use(session({
 }));
 
 // Passport init
-app.use(passport.initialize());
+/*app.use(passport.initialize());
 app.use(passport.session());
-
+*/
 // Connect Flash
 app.use(flash());
 
@@ -56,8 +56,9 @@ app.use(function (req, res, next) {
 
 app.use('/', index);
 
-//app.use('/teacher', teacher);
+app.use('/teacher', teacher);
 app.use('/student', student);
+app.use('/api', api);
 //pp.use('/forget', forget);
 //app.use('/users', users);
 

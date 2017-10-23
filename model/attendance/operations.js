@@ -1,8 +1,6 @@
 let post = require('./model').post;
 
-let attn = {
-
-    attendance : obj=>{
+module.exports.attendance = obj=>{
         "use strict";
         /*
            obj.collection (name of the class)
@@ -28,9 +26,9 @@ let attn = {
             .catch(err=>{
                 return Promise.reject({err: err, reason:"cannot get db access"});
             });
-    },
+    };
 
-    addAttendance: obj => {
+module.exports.addAttendance= obj => {
         "use strict";
 
         //    obj.collection (name of the class)
@@ -78,9 +76,9 @@ let attn = {
             .catch(err => {
                 return Promise.reject( {err: err, reason: "failed to connect the collection"} );
             });
-    },
+    };
 
-    getAttendance: obj => {
+module.exports.getAttendance= obj => {
         "use strict";
 
           //  obj.collection
@@ -106,9 +104,9 @@ let attn = {
                         return Promise.reject({err: err, reason: "find one get err"})
                     });
             });
-    },
+    };
 
-    register: obj => {
+module.exports.register= obj => {
         "use strict";
 
             //return the register of a class
@@ -140,7 +138,4 @@ let attn = {
                         return Promise.reject({err: err, reason: "find register get err"})
                     });
             })
-    }
-
-};
-module.exports.db =attn;
+    };

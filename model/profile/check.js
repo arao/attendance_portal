@@ -1,20 +1,47 @@
 let db = require('./operations');
+let DB = require('./model');
 
-console.log(db);
 
+let obj = {
+    username: "t-neelam",
+    name: "neelam",
+    password: "1234567",
+    contact: {email: "jaiho@gmail.com", mobile: "9449449494"} ,
+    map : ["os_ce_2015_5"],
+    collection : "teacher"
+};
 
-let obj = {};
-obj.collection = "teacher";
-obj.password = '1111';
-
-let ob1 = {};
-ob1.collection = "teacher";
-ob1.username = 'gdf';
-ob1.name = 'gdfi';
-ob1.password = '1ggg';
-ob1.email = "sogfdhutiya.com";
-ob1.mobile = 454455;
 /*
+let n =()=> {
+    DB('teacher')
+        .then(res => {
+            "use strict";
+            res.find({}).then(doc => {
+                console.log(doc);
+            })
+        });
+};
+
+setTimeout(n, 1000);
+*/
+
+/*
+setTimeout(()=> {
+
+    db.createUser(obj)
+        .then(res => {
+            "use strict";
+            console.log(res);
+
+        })
+        .catch(err => {
+            "use strict";
+            console.log(err);
+        });
+    //obj.class = obj.map;
+    //db.addclass(obj);
+    }, 1000);
+
 setTimeout(()=>{
     "use strict";
     db.signup(ob1).then(res=>{
@@ -23,12 +50,10 @@ setTimeout(()=>{
     })
         .catch(err=>{console.log(err)});
 }, 1000);
-
+*/
 setTimeout(()=> {
-    db.signin(ob1).then(res => {
+    db.getUserByUsername({collection: "teacher", username:"t-neelam", password:"1"}).then(res => {
         "use strict";
-        console.log("reterived data");
         console.log(res);
     });
 }, 2000);
-*/

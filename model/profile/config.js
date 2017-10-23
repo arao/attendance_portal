@@ -5,20 +5,23 @@ const uri = "mongodb://localhost:27017/Profile";
 mongoose.Promise = Promise;
 const log = require('../../etc/log');
 
-mongoose.connect(uri,opt);//(res=>{},err=>{throw err});
+mongoose.connect(uri,opt).catch(err=>{console.log(err)});
 
+let collectionList = [];
 mongoose.connection.on('connected', function () {
     console.log('Mongoose default connection open to ' + uri);
     client.connect(uri).then(db => {
         "use strict";
+
         db.listCollections().toArray()
             .then(doc => {
                 db.close();
-                mongoose.collectionList = [];
+                //mongoose.collectionList = [];
                 for(let ele of doc){
-                    mongoose.collectionList.push(ele.name);
+                    collectionList.push(ele.name);
                 }
                 console.log("Mongo Driver Collection retrieve from : "+uri);
+                //console.log(mongoose.collectionList);
             })
             .catch(err => {
                 console.log("Failed to get collection list");
@@ -26,6 +29,7 @@ mongoose.connection.on('connected', function () {
                 db.close();
             });
     });
+
 });
 
 mongoose.connection.on('error',function (err) {
@@ -43,4 +47,5 @@ process.on('SIGINT', function() {
     });
 });
 
-module.exports = mongoose;
+module.exports = {mongo:mongoose, collectionlist : collectionList};
+//module.exports.collectionList = collectionList;

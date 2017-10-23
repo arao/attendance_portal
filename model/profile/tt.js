@@ -1,23 +1,21 @@
-const client = require('mongodb').MongoClient;
-const uri = "mongodb://localhost:27017/Profile";
+let db = require('./config');
+let profile = require('./schema').schema;
 
-let mongoose = {};
+let post = db.model("2K15", profile , "2K15");
 
-client.connect(uri).then(db => {
+let n = new post;
+n.username = "ce-2672-2k15";
+n.password = "1";
+n.name = "aashif";
+n.contact.email="kjsadnfkj@lknldfs.com";
+n.contact.mobile="68468";
+n.map = ["os_5_ce_2015", "ada_5_ce_2015"];
+n.save()
+    .then(doc=>{
+        "use strict";
+        console.log(doc);
+    })
+.catch(err=>{
     "use strict";
-    db.listCollections().toArray()
-        .then(doc => {
-            db.close();
-            mongoose.collectionList = [];
-            for(let ele of doc){
-                mongoose.collectionList.push(ele.name);
-            }
-            console.log(mongoose.collectionList);
-            console.log("Mongo Driver Collection retrieve");
-        })
-        .catch(err => {
-            console.log("Failed to get collection list");
-            log.error({err: err, reason: "mongodb driver cannot retrieve data from database"});
-            db.close();
-        });
+    console.log(err);
 });

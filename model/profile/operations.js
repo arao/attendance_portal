@@ -1,6 +1,4 @@
-let post = require('./model').post;
-
-
+let post = require('./model');
 module.exports.getUserByUsername = (obj) => {
     "use strict";
     /*
@@ -9,29 +7,40 @@ module.exports.getUserByUsername = (obj) => {
         obj.password
 
      */
-
     return post(obj.collection)
         .then((db) => {
+            //return db.find({}).then(doc=>{return Promise.resolve(doc)});
             return db.findOne({username: obj.username})
                 .then(doc => {
                     if (doc === null) {
-                        return Promise.reject({err: doc, reason: "value not exist"});
+
+                        return Promise.reject({err: doc, reason: "User not exist"});
+
                     } else if (doc.password !== obj.password) {
+
                         doc = doc.toObject();
                         delete doc._id;
                         delete doc.username;
                         delete doc.password;
-                        return Promise.reject({err: doc, reason: "Credential Error"});
+                        delete doc._v;
+                        return Promise.reject({err: " ", reason: "Credential Error"});
+
+
                     } else {
+
+
                         doc = doc.toObject();
                         delete doc.password;
                         delete doc._id;
+                        delete doc._v;
                         return Promise.resolve(doc);
+
+
                     }
                 })
         })
         .catch(err => {
-            return Promise.resolve({err: err, reason: "failed to signin"});
+            return Promise.reject({err: err, reason: "Failed to signin"});
         })
 };
 
@@ -54,7 +63,7 @@ module.exports.createUser =  (obj) => {
             profile.username = obj.username;
             profile.name = obj.name;
             profile.password = obj.password;
-            profile.verify = false;
+            //profile.verify = false;
             profile.contact.email = obj.email;
             profile.contact.mobile = obj.mobile;
             //profile.map = [];
