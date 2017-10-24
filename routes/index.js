@@ -26,14 +26,6 @@ router.get('/logout', function (req, res, next) {
     })
 });
 
-router.use(function (req,res,next) {
-    if(req.session.profile){
-        res.redirect('/');
-    }
-    next();
-});
-
-
 router.get('/login', function (req, res, next) {
     /*
          render login form
